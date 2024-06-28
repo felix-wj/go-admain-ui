@@ -11,10 +11,17 @@
                 <!-- 表单 -->
                 <a-form>
                     <a-form-item field="name" tooltip="请输入用户名" label="Username">
-                        <a-input v-model="form.name" placeholder="请输入用户名..."/>
+                        <a-input  placeholder="请输入用户名...">
+                           <!--  <template #perfix><icon-user /></template> -->
+                        </a-input>
                     </a-form-item>
+                    <a--form-item field="password" tooltip="请输入密码"
                 </a-form>
             </div>
         </div>
     </div>
 </template>
+
+<script setup>
+
+</script>
