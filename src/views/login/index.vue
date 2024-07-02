@@ -17,21 +17,21 @@
                             <div class="account-top-desc">横看成峰侧成岭 远近高低各不同</div>
                         </div>
                         <!-- 表单 -->
-                        <a-form layout="vertical" ref="loginFormRef" :model="loginForm" @keyup.enter="handleLogin">
-                            <a-form-item field="userName"  >
-                                <a-input placeholder="请输入用户名...">
+                        <a-form layout="vertical" ref="loginFormRef" :model="loginForm" @keyup.enter="handleLogin" :rules="loginRules">
+                            <a-form-item field="userName"  hide-asterisk  >
+                                <a-input placeholder="请输入用户名..." v-model="loginForm.userName">
                                     <template #prefix><icon-user /></template>
                                 </a-input>
                             </a-form-item>
                             <a-form-item field="password"  hide-asterisk>
-                                <a-input-password placeholder="请输入密码">
+                                <a-input-password placeholder="请输入密码" v-model="loginForm.password">
                                     <template #prefix><icon-lock /></template>
                                 </a-input-password>
                             </a-form-item>
                             <div style="display: flex;">
                                 <div style="width:65%;">
-                                    <a-form-item field="code" hide-asterisk>
-                                        <a-input placeholder="请输入验证码">
+                                    <a-form-item field="code" hide-asterisk >
+                                        <a-input placeholder="请输入验证码" v-model="loginForm.code">
                                             <template #prefix><icon-safe /></template>
                                         </a-input>
 
@@ -59,13 +59,23 @@
 import { ref, reactive } from 'vue'
 
 const loginRules ={
-    userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-    password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-    code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
-
+    userName: [{ required: true, message: '请输入用户名'}],
+    password: [{ required: true, message: '请输入密码' }],
+    code: [{ required: true, message: '请输入验证码' }]
 }
 
-loginFormRef = ref(null)
+const loginFormRef = ref(null)
+defineExpose({ loginFormRef });
+
+const loginForm = reactive({})
+
+const handleLogin = () => {
+  loginFormRef.value.validate( async(valid)=>{
+    if(!valid){
+        const {code,token,msg} = 
+    }
+  })
+}
 
 
 </script>
