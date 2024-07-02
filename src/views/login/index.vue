@@ -17,7 +17,7 @@
                             <div class="account-top-desc">横看成峰侧成岭 远近高低各不同</div>
                         </div>
                         <!-- 表单 -->
-                        <a-form layout="vertical">
+                        <a-form layout="vertical" ref="loginFormRef" :model="loginForm" @keyup.enter="handleLogin">
                             <a-form-item field="userName"  >
                                 <a-input placeholder="请输入用户名...">
                                     <template #prefix><icon-user /></template>
@@ -56,7 +56,16 @@
 </template>
 
 <script setup>
+import { ref, reactive } from 'vue'
 
+const loginRules ={
+    userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+    password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+    code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+
+}
+
+loginFormRef = ref(null)
 
 
 </script>
