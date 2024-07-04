@@ -65,14 +65,16 @@ const loginRules ={
 }
 
 const loginFormRef = ref(null)
-defineExpose({ loginFormRef });
 
 const loginForm = reactive({})
 
 const handleLogin = () => {
   loginFormRef.value.validate( async(valid)=>{
     if(!valid){
-        const {code,token,msg} = 
+        //const {code,token,msg} = 
+        console.log('loginForm',loginForm)
+    }else{
+        console.log("校验不通过")
     }
   })
 }
