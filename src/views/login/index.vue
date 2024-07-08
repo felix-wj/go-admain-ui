@@ -65,7 +65,6 @@ const loginRules ={
 }
 
 const loginFormRef = ref(null)
-defineExpose({ loginFormRef });
 
 const loginForm = reactive({})
 
