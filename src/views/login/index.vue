@@ -72,7 +72,7 @@ const loginForm = reactive({})
 const handleLogin = () => {
   loginFormRef.value.validate( async(valid)=>{
     if(!valid){
-        const {code,token,msg} = 
+        const {code,token,msg} = await loginForm()
     }
   })
 }
