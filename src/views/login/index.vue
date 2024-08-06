@@ -42,7 +42,7 @@
                                     <img :src="captchUrl" class="captcha" @clicl="loadCaptcha()" />
                                 </div>
                             </div>
-                            <a-space direction="vertical" size="medium">
+                            <a-space direction="vertical" size="medinpmum">
                                 <a-checkbox>记住密码</a-checkbox>
                                 <a-button size="large" type="primary" :loading="loading" long
                                     @click="handleLogin">登录</a-button>
@@ -56,25 +56,59 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
+import {login ,getCaptcha} from '@/api/admin/login'
+import {useUserStore} from '@/store/userInfo'
+import {Message} from '@arco-design/web-vue'
+import {useRouter} from 'vue-router'
+const store = useUserStore();
+const router = useRouter();
 
 const loginRules ={
     userName: [{ required: true, message: '请输入用户名'}],
     password: [{ required: true, message: '请输入密码' }],
     code: [{ required: true, message: '请输入验证码' }]
+};
+const loading= ref(false);
+const loginFormRef = ref(null);
+
+const loginForm = reactive({});
+
+const captchUrl = ref(null);
+
+const loadCaptcha =  async() =>{
+  const res = await getCaptcha();
+  captchUrl.value = res.data;
+  loginForm.uuid = res.id;
 }
-
-const loginFormRef = ref(null)
-
-const loginForm = reactive({})
 
 const handleLogin = () => {
   loginFormRef.value.validate( async(valid)=>{
     if(!valid){
-        const {code,token,msg} = await loginForm()
+        try{
+          const {code,token,msg} = await login(loginForm);
+          if(code === 200){
+              store.setToken(token);
+              Message.success('登录成功');
+              setTimeout(()=>{
+                  router.push('/admin/sys-api');
+                  loading.value = false;
+              },1000);
+          }else{
+            Message.error(`登录失败:${msg}`);
+          }
+        }catch(err){
+            Message.error(`登录失败:${err}`);
+        } finally{
+            loading.value = false;
+        }
     }
   })
-}
+};
+
+onMounted( async ()=>{
+    await loadCaptcha();
+})
 
 
 </script>
